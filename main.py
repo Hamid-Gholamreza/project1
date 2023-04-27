@@ -146,7 +146,7 @@ class MyWindow(QMainWindow):
         self.form.addWidget(self.timeOfExecutionLabel, 3, 1)
 
         self.timeOfExecutionMessageBox = QPlainTextEdit()
-        self.timeOfExecutionMessageBox.setFixedSize(150, 30)
+        self.timeOfExecutionMessageBox.setFixedSize(200, 30)
         self.timeOfExecutionMessageBox.setEnabled(False)
         self.form.addWidget(self.timeOfExecutionMessageBox, 3, 2)
 
@@ -331,8 +331,6 @@ class MyWindow(QMainWindow):
 
 
     def search_button(self):
-        ...
-        #self.list_of_blocks  self.list_of_foods self.pacman
 
         ListBlock = []
         Pacman = []
@@ -390,7 +388,20 @@ class MyWindow(QMainWindow):
 
 
 
+            self.timeOfExecutionMessageBox.setPlainText(str(goldlist[1]))
+            font = QFont()
+            font.setPointSize(9)
+            self.timeOfExecutionMessageBox.setFont(font)
 
+
+            if len(self.list_of_foods) == 1:              ### for the conditon of having only one food
+                self.openedNodeMessageBox.setPlainText(str(len(goldlist[0][1])))
+                font = QFont()
+                font.setPointSize(9)
+                self.openedNodeMessageBox.setFont(font)
+
+            else:                   #for the condition of having more than one food
+                ...
 
 
 
