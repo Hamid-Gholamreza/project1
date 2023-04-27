@@ -361,25 +361,31 @@ class MyWindow(QMainWindow):
         list_of_opened_nodes = []
         direction_list = []
         goldlist = a.BFS()
-        print(goldlist)
+
+        if goldlist[0][2] == False:
+            error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path", QMessageBox.Ok)
+            if error_box == QMessageBox.Ok:
+                self.clear_button()
+        
+        else:
+            print(goldlist)
         ###goldlist = [[direction_list=(x,y,number) ,  list_of_opened_nodes = (x,y) , solutionexists:bool ] , perf_time]
-        for x in goldlist[0][0]:
-            direction_list.append(f"{x[0]}-{x[1]}")
-        for x in goldlist[0][1]:
-            list_of_opened_nodes.append(f"{x[0]}-{x[1]}")
+            for x in goldlist[0][0]:
+                direction_list.append(f"{x[0]}-{x[1]}")
+            for x in goldlist[0][1]:
+                list_of_opened_nodes.append(f"{x[0]}-{x[1]}")
 
 
-
-        for opened in list_of_opened_nodes:
-            button = self.findChild(PushButton, opened)
-            button.setStyleSheet("background-color: yellow;"
-                                "border :0.5px solid gray;"
-                                "color: orange")
-        for index, value in enumerate(direction_list):
-            button = self.findChild(PushButton, value)
-            button.setStyleSheet("background-color: green;"
-                                "border :0.5px solid gray;"
-                                "color: orange")
+            for opened in list_of_opened_nodes:
+                button = self.findChild(PushButton, opened)
+                button.setStyleSheet("background-color: yellow;"
+                                    "border :0.5px solid gray;"
+                                    "color: orange")
+            for index, value in enumerate(direction_list):
+                button = self.findChild(PushButton, value)
+                button.setStyleSheet("background-color: green;"
+                                    "border :0.5px solid gray;"
+                                    "color: orange")
 
 
 
