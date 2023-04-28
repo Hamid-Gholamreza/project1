@@ -238,6 +238,10 @@ class MyWindow(QMainWindow):
         self.pacman = []
         self.pacmanFlag = False
 
+        self.timeOfExecutionMessageBox.setPlainText("")
+        self.openedNodeMessageBox.setPlainText("")
+
+
 
     def object_choosing(self):
         if self.objectCombobox.currentIndex() == 0:     ### for pacman
@@ -370,14 +374,16 @@ class MyWindow(QMainWindow):
         list_of_opened_nodes = []
         direction_list = []
         goldlist = a.BFS()
+        print(goldlist[0][0])
+
+
 
         if goldlist[0][2] == False:
             error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path", QMessageBox.Ok)
             if error_box == QMessageBox.Ok:
                 self.clear_button()
         
-        else:
-            print(goldlist)
+        elif goldlist[0][2] == True:
         ###goldlist = [[direction_list=(x,y,number) ,  list_of_opened_nodes = (x,y) , solutionexists:bool ] , perf_time]
             for x in goldlist[0][0]:
                 direction_list.append(f"{x[0]}-{x[1]}")
