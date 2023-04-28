@@ -183,10 +183,10 @@ class MyWindow(QMainWindow):
                 else:
                     button = PushButton('', style=self.Styles["White"], row=row, column=column, color="white")
                     button.setObjectName(f"{row}-{column}")
+                    self.Buttons[row][column] = button
                     button.setProperty('is_food', False)
                     button.setProperty('is_block', False)
                     button.setProperty('is_pacman', False)
-                    self.Buttons[row][column] = button
                     button.setEnabled(False)
                     self.layout.addWidget(button, row+1, column)
                     self.ButtonGroup.addButton(button)
@@ -211,11 +211,15 @@ class MyWindow(QMainWindow):
             sender.setStyleSheet("background-color: black;"
                                 "border :0.5px solid gray;")
             self.list_of_blocks.append(sender.objectName())
+            sender.setProperty('is_block', True)
+
 
         elif sender.palette().color(sender.backgroundRole()) == QColor('black'):
             sender.setStyleSheet("background-color: white;"
                                 "border :0.5px solid gray;")
             self.list_of_blocks.remove(sender.objectName())
+            sender.setProperty('is_block', False)
+
 
 
 
@@ -225,6 +229,10 @@ class MyWindow(QMainWindow):
                                  "border :0.5px solid gray;")
             button.setText('')
             button.setIcon(QIcon())
+            button.setProperty('is_food', False)
+            button.setProperty('is_block', False)
+            button.setProperty('is_pacman', False)
+
         self.list_of_blocks = []
         self.list_of_foods = []
         self.pacman = []
@@ -232,7 +240,6 @@ class MyWindow(QMainWindow):
 
 
     def object_choosing(self):
-        sender = self.sender()
         if self.objectCombobox.currentIndex() == 0:     ### for pacman
             self.click_for_pacman()
 
@@ -267,14 +274,17 @@ class MyWindow(QMainWindow):
     def click_for_pacman(self):
         sender = self.sender()
         pixmap = QPixmap('./images/pacman_icon.png')
+        sender.setProperty('text', '')
+
         if not self.pacmanFlag:
-            pixmap = pixmap.scaled(sender.size(), aspectRatioMode=Qt.KeepAspectRatio, transformMode=Qt.SmoothTransformation)
+            pixmap = pixmap.scaled(sender.size(), aspectRatioMode=Qt.KeepAspectRatio,
+                                   transformMode=Qt.SmoothTransformation)
             icon = QIcon(pixmap)
-            sender.setIcon(icon)
+            sender.setProperty('icon', icon)
             self.pacmanFlag = True
             self.pacman.append(sender.objectName())
         else:
-            sender.setIcon(QIcon())
+            sender.setProperty('icon', QIcon())
             self.pacmanFlag = False
             self.pacman.remove(sender.objectName())
 
