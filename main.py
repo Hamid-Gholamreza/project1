@@ -374,8 +374,6 @@ class MyWindow(QMainWindow):
         list_of_opened_nodes = []
         direction_list = []
         goldlist = a.DFS()
-        print(Pacman , Food , ListBlock)
-        print(goldlist[2])
         if goldlist[2]==False:
             for x in goldlist[0]:
                 direction_list.append(f"{x[0]}-{x[1]}")
@@ -396,9 +394,9 @@ class MyWindow(QMainWindow):
             error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path For All Food", QMessageBox.Ok)
             if error_box == QMessageBox.Ok:
                 self.clear_button()
+            
 
         else:
-            print(goldlist)
 
         ###goldlist = [[direction_list=(x,y,number) ,  list_of_opened_nodes = (x,y) , solutionexists:bool ] , perf_time]
             for x in goldlist[0]:
@@ -420,22 +418,16 @@ class MyWindow(QMainWindow):
 
 
 
-            self.timeOfExecutionMessageBox.setPlainText(str(goldlist[1]))
+            self.timeOfExecutionMessageBox.setPlainText(str(goldlist[3]))
             font = QFont()
             font.setPointSize(9)
             self.timeOfExecutionMessageBox.setFont(font)
 
 
-            if len(self.list_of_foods) == 1:              ### for the conditon of having only one food
-                self.openedNodeMessageBox.setPlainText("")
-                font = QFont()
-                font.setPointSize(9)
-                self.openedNodeMessageBox.setFont(font)
-
-            else:                   #for the condition of having more than one food
-                ...
-
-
+            self.openedNodeMessageBox.setPlainText(str(len(list(set(list_of_opened_nodes)))))
+            font = QFont()
+            font.setPointSize(9)
+            self.openedNodeMessageBox.setFont(font)
 
 
 
