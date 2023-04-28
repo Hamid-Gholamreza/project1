@@ -111,12 +111,12 @@ class Searchalgorithm():
                                     _ResultCordinate.append(i)
                                 for i in PreAnwser[1]:
                                     self.ClosedList.append(i)
-                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2]
-                            return (_ResultCordinate , self.ClosedList , True)
+                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2] , run_time
+                            return (_ResultCordinate , self.ClosedList , True , run_time)
                 else:
                     self.expand(Checking_Node , _fringe)
                     if(_fringe.empty()):
-                        return([] , self.ClosedList , False)
+                        return([] , self.ClosedList , False,run_time)
     @time_calculation
     def AStar(self) ->None:
         _fringe = MYPriorityQueue(self)
@@ -146,12 +146,12 @@ class Searchalgorithm():
                                     _ResultCordinate.append(i)
                                 for i in PreAnwser[1]:
                                     self.ClosedList.append(i)
-                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2]
-                            return (_ResultCordinate , self.ClosedList , True)
+                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2],run_time
+                            return (_ResultCordinate , self.ClosedList , True,run_time)
                 else:
                     self.expandNodeForAStar(Checking_Node , _fringe)
                     if(_fringe.empty()):
-                        return([] , self.ClosedList , False)
+                        return([] , self.ClosedList , False, run_time)
 
 
 
