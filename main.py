@@ -373,20 +373,37 @@ class MyWindow(QMainWindow):
         a = Searchalgorithm(Pacman , Food , ListBlock)
         list_of_opened_nodes = []
         direction_list = []
-        goldlist = a.BFS()
-        print(goldlist)
+        goldlist = a.DFS()
+        print(Pacman , Food , ListBlock)
+        print(goldlist[2])
+        if goldlist[2]==False:
+            for x in goldlist[0]:
+                direction_list.append(f"{x[0]}-{x[1]}")
+            for x in goldlist[1]:
+                list_of_opened_nodes.append(f"{x[0]}-{x[1]}")
 
 
-        if goldlist[0][2] == False:
-            error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path", QMessageBox.Ok)
+            for opened in list_of_opened_nodes:
+                button = self.findChild(PushButton, opened)
+                button.setStyleSheet("background-color: yellow;"
+                                    "border :0.5px solid gray;"
+                                    "color: orange")
+            for index, value in enumerate(direction_list):
+                button = self.findChild(PushButton, value)
+                button.setStyleSheet("background-color: green;"
+                                    "border :0.5px solid gray;"
+                                    "color: orange")
+            error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path For All Food", QMessageBox.Ok)
             if error_box == QMessageBox.Ok:
                 self.clear_button()
-        
-        elif goldlist[0][2] == True:
+
+        else:
+            print(goldlist)
+
         ###goldlist = [[direction_list=(x,y,number) ,  list_of_opened_nodes = (x,y) , solutionexists:bool ] , perf_time]
-            for x in goldlist[0][0]:
+            for x in goldlist[0]:
                 direction_list.append(f"{x[0]}-{x[1]}")
-            for x in goldlist[0][1]:
+            for x in goldlist[1]:
                 list_of_opened_nodes.append(f"{x[0]}-{x[1]}")
 
 
@@ -410,13 +427,14 @@ class MyWindow(QMainWindow):
 
 
             if len(self.list_of_foods) == 1:              ### for the conditon of having only one food
-                self.openedNodeMessageBox.setPlainText(str(len(goldlist[0][1])))
+                self.openedNodeMessageBox.setPlainText("")
                 font = QFont()
                 font.setPointSize(9)
                 self.openedNodeMessageBox.setFont(font)
 
             else:                   #for the condition of having more than one food
                 ...
+
 
 
 
