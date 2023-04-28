@@ -58,7 +58,6 @@ class Searchalgorithm():
                                 _ResultCordinate.append((i.x , i.y , next(self)))
                             if len(self.Food)>1:
                                 self.Food.remove((temp.x , temp.y))
-                                print(self.Food)
                                 obj = Searchalgorithm([self.Food[0]] , self.Food , self.Barricade)
                                 PreAnwser = obj.BFS()
                                 return ((_ResultCordinate , self.ClosedList , True) , PreAnwser)
@@ -207,6 +206,9 @@ class Searchalgorithm():
         for ChildNode in addjacent:
             if (ChildNode.x , ChildNode.y) not in self.ClosedList and self.barricade_checking(ChildNode) and self.board_border(ChildNode):
                 _fringe.put(ChildNode)
+
+
+
     def __enter__(self):
         return self
     def __exit__(self , exc_type , exc_val , exc_tb ):
@@ -214,3 +216,16 @@ class Searchalgorithm():
     def __next__(self):
         self.count+=1
         return self.count
+
+
+CommonClosedlist = []
+
+
+
+
+
+
+
+
+
+

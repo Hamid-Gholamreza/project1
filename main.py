@@ -374,8 +374,7 @@ class MyWindow(QMainWindow):
         list_of_opened_nodes = []
         direction_list = []
         goldlist = a.BFS()
-        print(goldlist[0][0])
-
+        print(goldlist)
 
 
         if goldlist[0][2] == False:
