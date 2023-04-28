@@ -10,6 +10,8 @@ from typing import Any
 from time import perf_counter
 from functools import wraps
 import threading
+MiddleNode = 0
+MiddleNode1 = 0
 @dataclass
 class PrioritizedItem:
     priority: int
@@ -46,7 +48,7 @@ class Searchalgorithm():
             Checking_Node = _fringe.get()
             if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
                 self.ClosedList.append((Checking_Node.x , Checking_Node.y))
-                if self.goal_test(Checking_Node):
+                if self.goal_test(temp:=Checking_Node):
                     while True:
                         _Result.append(Checking_Node)
                         Checking_Node = Checking_Node.parrent
@@ -54,9 +56,11 @@ class Searchalgorithm():
                             _ResultCordinate = []
                             for i in _Result:
                                 _ResultCordinate.append((i.x , i.y , next(self)))
-                            if len(self.Food)!=0:
-                                obj = Searchalgorithm(self.Pacman , self.Food , self.Barricade)
-                                PreAnwser = obj.AStar()
+                            if len(self.Food)>1:
+                                self.Food.remove((temp.x , temp.y))
+                                print(self.Food)
+                                obj = Searchalgorithm([self.Food[0]] , self.Food , self.Barricade)
+                                PreAnwser = obj.BFS()
                                 return ((_ResultCordinate , self.ClosedList , True) , PreAnwser)
                             return (_ResultCordinate , self.ClosedList , True)
                 else:
@@ -78,7 +82,7 @@ class Searchalgorithm():
             Checking_Node = _fringe.get()
             if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
                 self.ClosedList.append((Checking_Node.x , Checking_Node.y))
-                if self.goal_test(Checking_Node):
+                if self.goal_test(temp:=Checking_Node):
                     while True:
                         _Result.append(Checking_Node)
                         Checking_Node = Checking_Node.parrent
@@ -86,9 +90,10 @@ class Searchalgorithm():
                             _ResultCordinate = []
                             for i in _Result:
                                 _ResultCordinate.append((i.x , i.y , next(self)))
-                            if len(self.Food)!=0:
-                                obj = Searchalgorithm(self.Pacman , self.Food , self.Barricade)
-                                PreAnwser = obj.AStar()
+                            if len(self.Food)>1:
+                                self.Food.remove((temp.x , temp.y))
+                                obj = Searchalgorithm([self.Food[0]] , self.Food , self.Barricade)
+                                PreAnwser = obj.DFS()
                                 return ((_ResultCordinate , self.ClosedList , True) , PreAnwser)
                             return (_ResultCordinate , self.ClosedList , True)
                 else:
@@ -108,14 +113,15 @@ class Searchalgorithm():
                 next(self)
                 if self.goal_test(Checking_Node):
                     while True:
-                        _Result.append(Checking_Node)
+                        _Result.append(temp:=Checking_Node)
                         Checking_Node = Checking_Node.parrent
                         if(Checking_Node == None):
                             _ResultCordinate = []
                             for i in _Result:
                                 _ResultCordinate.append((i.x , i.y , next(self)))
-                            if len(self.Food)!=0:
-                                obj = Searchalgorithm(self.Pacman , self.Food , self.Barricade)
+                            if len(self.Food)>1:
+                                self.Food.remove((temp.x , temp.y))
+                                obj = Searchalgorithm([self.Food[0]] , self.Food , self.Barricade)
                                 PreAnwser = obj.AStar()
                                 return ((_ResultCordinate , self.ClosedList , True) , PreAnwser)
                             return (_ResultCordinate , self.ClosedList , True)
@@ -188,7 +194,7 @@ class Searchalgorithm():
             return True
     def goal_test(self , node ):
         if ((node.x,node.y)) in self.Food:
-            self.Food.remove((node.x,node.y))
+
             return True
     def expand(self , node , _fringe):
         addjacent =self.making_node(node , self.adjacent_generator_for_BF1(node))
@@ -208,16 +214,3 @@ class Searchalgorithm():
     def __next__(self):
         self.count+=1
         return self.count
-
-
-
-
-
-
-
-
-
-
-
-
-
