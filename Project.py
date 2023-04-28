@@ -44,8 +44,6 @@ class Searchalgorithm():
         order = {}
         while True:
             Checking_Node = _fringe.get()
-            if(_fringe.empty()):
-                return([] , self.ClosedList , False)
             if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
                 self.ClosedList.append((Checking_Node.x , Checking_Node.y))
                 if self.goal_test(Checking_Node):
@@ -63,6 +61,8 @@ class Searchalgorithm():
                             return (_ResultCordinate , self.ClosedList , True)
                 else:
                     self.expand(Checking_Node , _fringe)
+                    if(_fringe.empty()):
+                        return([] , self.ClosedList , False)
 
 
 
@@ -76,8 +76,6 @@ class Searchalgorithm():
         _Result = []
         while True:
             Checking_Node = _fringe.get()
-            if(_fringe.empty()):
-                return([] , self.ClosedList , False)
             if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
                 self.ClosedList.append((Checking_Node.x , Checking_Node.y))
                 if self.goal_test(Checking_Node):
@@ -95,6 +93,8 @@ class Searchalgorithm():
                             return (_ResultCordinate , self.ClosedList , True)
                 else:
                     self.expand(Checking_Node , _fringe)
+                    if(_fringe.empty()):
+                        return([] , self.ClosedList , False)
     @time_calculation
     def AStar(self) ->None:
         _fringe = MYPriorityQueue(self)
@@ -103,8 +103,6 @@ class Searchalgorithm():
         _Result = []
         while True:
             Checking_Node = _fringe.get()[2]
-            if(_fringe.empty()):
-                return([] , self.ClosedList , False)
             if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
                 self.ClosedList.append((Checking_Node.x , Checking_Node.y))
                 next(self)
@@ -123,6 +121,8 @@ class Searchalgorithm():
                             return (_ResultCordinate , self.ClosedList , True)
                 else:
                     self.expandNodeForAStar(Checking_Node , _fringe)
+                    if(_fringe.empty()):
+                        return([] , self.ClosedList , False)
 
 
 
