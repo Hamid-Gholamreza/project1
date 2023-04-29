@@ -38,6 +38,7 @@ class MyWindow(QMainWindow):
         self.list_of_blocks = []
         self.list_of_foods = []
         self.pacman = []
+        self.dict_of_values_buttons = {}
 
 
         self.Styles = {
@@ -188,6 +189,10 @@ class MyWindow(QMainWindow):
                     button.setProperty('is_block', False)
                     button.setProperty('is_pacman', False)
                     button.setEnabled(False)
+                    if row < 10:
+                        self.dict_of_values_buttons.update({f"{row}-{column}": 1})
+                    elif row >= 10:
+                        self.dict_of_values_buttons.update({f"{row}-{column}": 2})
                     self.layout.addWidget(button, row+1, column)
                     self.ButtonGroup.addButton(button)
                     button.clicked.connect(self.object_choosing)
@@ -439,8 +444,6 @@ class MyWindow(QMainWindow):
             font = QFont()
             font.setPointSize(9)
             self.openedNodeMessageBox.setFont(font)
-
-
 
 app = QApplication(sys.argv)
 w = MyWindow()
