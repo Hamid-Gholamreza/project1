@@ -104,7 +104,7 @@ class MyWindow(QMainWindow):
         self.form.addWidget(self.algorithmLabel, 1, 0)
 
         self.algorithmCombobox = QComboBox()
-        self.algorithmCombobox.addItems(['DFS', 'BFS'])
+        self.algorithmCombobox.addItems(['DFS', 'BFS', 'A*', 'UCS', "IDS"])
         self.algorithmCombobox.setFixedSize(150, 30)
         self.form.addWidget(self.algorithmCombobox, 1, 1)
 
@@ -370,9 +370,24 @@ class MyWindow(QMainWindow):
             if(self.pacman[0][i]=='-'):
                 Pacman.append((int(self.pacman[0][0:i]) , int(self.pacman[0][i+1:])))
 
-        a = Searchalgorithm(Pacman , Food , ListBlock)
+        a = Searchalgorithm(Pacman , Food , ListBlock,)
         list_of_opened_nodes = []
         direction_list = []
+
+
+        if self.algorithmCombobox.currentIndex() == 0:                      #DFS algoritms
+            goldlist = a.DFS()
+        
+        elif self.algorithmCombobox.currentIndex() == 1:                    #BFS algorithm
+            goldlist = a.BFS()
+        
+        elif self.algorithmCombobox.currentIndex() == 2:                    #A* algorithm
+            goldlist = a.AStar()
+
+
+
+
+
         goldlist = a.DFS()
         if goldlist[2]==False:
             for x in goldlist[0]:
