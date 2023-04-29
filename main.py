@@ -384,11 +384,7 @@ class MyWindow(QMainWindow):
         elif self.algorithmCombobox.currentIndex() == 2:                    #A* algorithm
             goldlist = a.AStar()
 
-
-
-
-
-        goldlist = a.DFS()
+        print(goldlist[0])
         if goldlist[2]==False:
             for x in goldlist[0]:
                 direction_list.append(f"{x[0]}-{x[1]}")
