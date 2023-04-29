@@ -384,6 +384,11 @@ class MyWindow(QMainWindow):
         elif self.algorithmCombobox.currentIndex() == 2:                    #A* algorithm
             goldlist = a.AStar()
 
+        elif self.algorithmCombobox.currentIndex() == 3:                    #UCS algorithm
+            goldlist = a.UCS()
+
+        elif self.algorithmCombobox.currentIndex() == 4:                    #IDS algorithm
+            goldlist = a.IDSCaller()
         print(goldlist[0])
         if goldlist[2]==False:
             for x in goldlist[0]:
