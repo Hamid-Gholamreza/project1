@@ -388,7 +388,7 @@ class MyWindow(QMainWindow):
             goldlist = a.UCS()
 
         elif self.algorithmCombobox.currentIndex() == 4:                    #IDS algorithm
-            goldlist = a.IDSCaller()
+            goldlist = a.IDSCaller(20)
         print(goldlist[0])
         if goldlist[2]==False:
             for x in goldlist[0]:
