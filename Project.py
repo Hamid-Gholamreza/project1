@@ -155,91 +155,8 @@ class Searchalgorithm():
                     self.expandNodeForAStar(Checking_Node , _fringe)
                     if(_fringe.empty()):
                         return([] , self.ClosedList , False,run_time)
-    @time_calculation
-    def UCS(self) ->None:
-        _fringe = MYPriorityQueue(self)
-        _addjacent  = self.adjacent_generator_for_BF1(self.RootNodeForUCS);
-        _fringe.PutInOrder(self.making_nodeForUCS(self.RootNodeForUCS , _addjacent  ))
-        _Result = []
-        while True:
-            if(_fringe.empty()):
-                return([] , self.ClosedList , False)
-            Checking_Node = _fringe.get()[2]
-            if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
-                self.ClosedList.append((Checking_Node.x , Checking_Node.y))
-                next(self)
-                if self.goal_test(temp:=Checking_Node):
-                    while True:
-                        _Result.append(Checking_Node)
-                        Checking_Node = Checking_Node.parrent
-                        if(Checking_Node == None):
-                            _ResultCordinate = []
-                            for i in _Result:
-                                _ResultCordinate.append((i.x , i.y , next(self)))
-                            if len(self.Food)>1:
-                                self.Food.remove((temp.x , temp.y))
-                                obj = Searchalgorithm([(temp.x , temp.y)] , self.Food , self.Barricade)
-                                PreAnwser = obj.UCS()
-                                for i in PreAnwser[0]:
-                                    _ResultCordinate.append(i)
-                                for i in PreAnwser[1]:
-                                    self.ClosedList.append(i)
-                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2],run_time
-                            return (_ResultCordinate , self.ClosedList , True,run_time)
-                else:
-                    self.expandNodeForAStar(Checking_Node , _fringe)
-                    if(_fringe.empty()):
-                        return([] , self.ClosedList , False,run_time)
-    @time_calculation
-    def IDSCaller(self , MAXDepth):
-        for i in range(3,MAXDepth):
-            obj = Searchalgorithm(self.Pacman, self.Food , self.Barricade)
-            Result = obj.IDS(i)
-            if(Result[2]==True):
-                return Result,run_time
-            else:
-                pass
-        return ([] , self.ClosedList , False)
-
-
-    @time_calculation
-    def IDS(self , MAXDepth)->None :
-        _fringe = MYFIFOQueue(self)
-        _addjacent  = self.adjacent_generator_for_BF1(self.RootNodeForIDS);
-        _fringe.PutInOrder(self.making_nodeForIDS(self.RootNodeForIDS , _addjacent  ))
-        _Result = []
-        order = {}
-        _ResultCordinate = []
-        global run_time
-        while True:
-            if(_fringe.empty()):
-                return([] , self.ClosedList , False)
-            Checking_Node = _fringe.get()
-            if(Checking_Node.TravelledDistance>MAXDepth):
-                return([] , self.ClosedList , False)
-            if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
-                self.ClosedList.append((Checking_Node.x , Checking_Node.y))
-                if self.goal_test(temp:=Checking_Node):
-                    while True:
-                        _Result.append(Checking_Node)
-                        Checking_Node = Checking_Node.parrent
-                        if(Checking_Node == None):
-                            for i in _Result:
-                                _ResultCordinate.append((i.x , i.y , next(self)))
-                            if len(self.Food)>1:
-                                self.Food.remove((temp.x , temp.y))
-                                obj = Searchalgorithm([(temp.x , temp.y)], self.Food , self.Barricade)
-                                PreAnwser = obj.IDSCaller()
-                                for i in PreAnwser[0]:
-                                    _ResultCordinate.append(i)
-                                for i in PreAnwser[1]:
-                                    self.ClosedList.append(i)
-                                return _ResultCordinate, self.ClosedList , True and PreAnwser[2]
-                            return (_ResultCordinate , self.ClosedList , True)
-                else:
-                    self.expandNodeForAStar(Checking_Node , _fringe)
-                    if(_fringe.empty()):
-                        return([] , self.ClosedList , False)
+   
+    
 
 
 
@@ -284,36 +201,8 @@ class Searchalgorithm():
             node.parrent =  parrent
             l.append(node)
         return l
-    def making_nodeForUCS(self,parrent , *Address):
-        l = []
-        for item in Address[0]:
-            node  = AStarNode()
-            node.x = item[0]
-            node.y = item[1]
-            _food = self.Food[0]
-            try:
-                node.value = self.UCSDict.find((x,y))
-                node.TravelledDistance = parrent.TravelledDistance + 1
-            except:
-                node.value = self.UCSDict.find((x,y))
-                node.TravelledDistance = 1
-            node.parrent =  parrent
-            l.append(node)
-        return l
-    def making_nodeForIDS(self,parrent , *Address):
-        l = []
-        for item in Address[0]:
-            node  = AStarNode()
-            node.x = item[0]
-            node.y = item[1]
-            _food = self.Food[0]
-            try:
-                node.TravelledDistance = parrent.TravelledDistance + 1
-            except:
-                node.TravelledDistance = 1
-            node.parrent =  parrent
-            l.append(node)
-        return l
+    
+    
     def barricade_checking(self , node):
         if ((node.x , node.y)) not in self.Barricade:
             return True
@@ -332,68 +221,7 @@ class Searchalgorithm():
             if (ChildNode.x , ChildNode.y) not in self.ClosedList and self.barricade_checking(ChildNode) and self.board_border(ChildNode):
                 _fringe.put(ChildNode)
 
-    def CustomBFS(self , event)->None :
-        global CommonClosedlist
-        global MiddleNode
-        global MiddleNode1
-        _fringe = MYFIFOQueue(self)
-        _addjacent  = self.adjacent_generator_for_BF1(self.RootNode);
-        _fringe.PutInOrder(self.making_node(self.RootNode , _addjacent  ))
-        _Result = []
-        order = {}
-        while True:
-            if(event.is_set()):
-                return
-            Checking_Node = _fringe.get()
-            if((Checking_Node.x , Checking_Node.y) not in self.ClosedList and self.barricade_checking(Checking_Node) and self.board_border(Checking_Node)):
-                self.ClosedList.append((Checking_Node.x , Checking_Node.y))
-                for item in CommonClosedlist:
-                    if((item.x == Checking_Node.x and item.y == Checking_Node.y)):
-                        MiddleNode = Checking_Node
-                        MiddleNode1 = item
-                        event.set()
-                        return
-                CommonClosedlist.append(Checking_Node)
-                self.expand(Checking_Node , _fringe)
-                if(_fringe.empty()):
-                    return([] , self.ClosedList , False)
-    @time_calculation
-    def bi_directional(self):
-
-        event = threading.Event()
-        a = Searchalgorithm(self.Pacman , self.Food , self.Barricade)
-        b = Searchalgorithm(self.Food ,self.Pacman  , self.Barricade)
-        t1 = threading.Thread(target = a.CustomBFS,args=(event,))
-        t2 = threading.Thread(target = b.CustomBFS ,args=(event,))
-        t1.start()
-        t2.start()
-        event.wait()
-        _Result = []
-        _Result1 = []
-        global MiddleNode
-        global MiddleNode1
-        _ResultCordinate = []
-        _ResultCordinate1 = []
-
-
-        if(event.is_set()):
-            try:
-                while True:
-
-                    MiddleNode3 = MiddleNode1
-                    _ResultCordinate.append((MiddleNode3.x , MiddleNode3.y))
-                    MiddleNode1 = MiddleNode1.parrent
-                    if(MiddleNode3 == None):
-                        break
-            except:
-                pass
-            while True:
-                _Result.append(MiddleNode)
-                MiddleNode = MiddleNode.parrent
-                if(MiddleNode == None):
-                    for i in _Result:
-                        _ResultCordinate1.append((i.x , i.y))
-                    return (_ResultCordinate , _ResultCordinate1)
+    
     def __enter__(self):
         return self
     def __exit__(self , exc_type , exc_val , exc_tb ):
