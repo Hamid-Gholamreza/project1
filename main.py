@@ -31,10 +31,10 @@ class MyWindow(QMainWindow):
         self.setFixedSize(width, height)
 
 
-        self.rows = 20
-        self.columns = 30
+        self.row = 20
+        self.column = 30
 
-        self.Buttons = [[0 for _ in range(self.columns)] for __ in range(self.rows)]
+        self.Buttons = [[0 for _ in range(self.column)] for __ in range(self.row)]
         self.list_of_blocks = []
         self.list_of_foods = []
         self.pacman = []
@@ -171,8 +171,8 @@ class MyWindow(QMainWindow):
 
 
     def CreateButtons(self):
-        for row in range(self.rows):
-            for column in range(self.columns):
+        for row in range(self.row):
+            for column in range(self.column):
                 if (row == 0 or row == 19) or (column == 0 or column == 29):
                     button = PushButton('', style=self.Styles["Black"], row=row, column=column, color="black")
                     button.setObjectName(f"{row}-{column}")
@@ -351,44 +351,49 @@ class MyWindow(QMainWindow):
 
     def search_button(self):
 
-        ListBlock = []
+        BarricadeList = []
         Pacman = []
         Food = []
 
-        for el in self.list_of_blocks :
+        for item in self.list_of_blocks :
             temp = 0
             temp2 = 0
-            for c in range(len(el)):
-                if(el[c]=='-'):
-                    temp = int(el[:c])
-                    temp2 = int(el[c+1:])
-            ListBlock.append((temp,temp2))
-        for el in self.list_of_foods :
+            for ele in range(len(item)):
+                if(item[ele]=='-'):
+                    temp = int(item[:ele])
+                    temp2 = int(item[ele+1:])
+            BarricadeList.append((temp,temp2))
+        for item in self.list_of_foods :
             temp = 0
             temp2 = 0
-            for c in range(len(el)):
-                if(el[c]=='-'):
-                    temp = int(el[:c])
-                    temp2 = int(el[c+1:])
+            for ele in range(len(item)):
+                if(item[ele]=='-'):
+                    temp = int(item[:ele])
+                    temp2 = int(item[ele+1:])
             Food.append((temp,temp2))
         for i in range(len(self.pacman[0])):
             if(self.pacman[0][i]=='-'):
                 Pacman.append((int(self.pacman[0][0:i]) , int(self.pacman[0][i+1:])))
 
-        a = Searchalgorithm(Pacman , Food , ListBlock,)
+        a = Searchalgorithm(Pacman , Food , BarricadeList,)
         list_of_opened_nodes = []
         direction_list = []
 
 
         if self.algorithmCombobox.currentIndex() == 0:                      #DFS algoritms
             goldlist = a.DFS()
-        
+
         elif self.algorithmCombobox.currentIndex() == 1:                    #BFS algorithm
             goldlist = a.BFS()
-        
+
         elif self.algorithmCombobox.currentIndex() == 2:                    #A* algorithm
             goldlist = a.AStar()
 
+        elif self.algorithmCombobox.currentIndex() == 3:                    #UCS algorithm
+            goldlist = a.UCS()
+
+        elif self.algorithmCombobox.currentIndex() == 4:                    #IDS algorithm
+            goldlist = a.IDSCaller(20)
         print(goldlist[0])
         if goldlist[2]==False:
             for x in goldlist[0]:
@@ -410,11 +415,10 @@ class MyWindow(QMainWindow):
             error_box = QMessageBox.critical(None, "Error", "Couldn't Find Path For All Food", QMessageBox.Ok)
             if error_box == QMessageBox.Ok:
                 self.clear_button()
-            
+
 
         else:
 
-        ###goldlist = [[direction_list=(x,y,number) ,  list_of_opened_nodes = (x,y) , solutionexists:bool ] , perf_time]
             for x in goldlist[0]:
                 direction_list.append(f"{x[0]}-{x[1]}")
             for x in goldlist[1]:
